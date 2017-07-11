@@ -31,7 +31,6 @@ public class UploadPhotoController {
     @PostMapping("uploadPhotoService")
     public String uploadPhotoService (@RequestParam("files") MultipartFile[] files,
                                       RedirectAttributes redirectAttributes) {
-        System.out.println("burda 1");
 
         StringJoiner sj = new StringJoiner(" , ");
 
@@ -42,13 +41,11 @@ public class UploadPhotoController {
             }
 
             try {
-                System.out.println("burda 1.4");
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
                 Files.write(path, bytes);
                 System.out.println("bytes: " +bytes);
                 sj.add(file.getOriginalFilename());
-                System.out.println("burda 2");
                 String base64 = new String(org.apache.tomcat.util.codec.binary.Base64.encodeBase64(bytes), "UTF-8");
                 System.out.println(base64);
             } catch (IOException e) {
@@ -57,7 +54,6 @@ public class UploadPhotoController {
             }
 
         }
-        System.out.println("burda5");
         String uploadedFileName = sj.toString();
         if (StringUtils.isEmpty(uploadedFileName)) {
             redirectAttributes.addFlashAttribute("message",
